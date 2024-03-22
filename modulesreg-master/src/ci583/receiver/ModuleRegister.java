@@ -88,8 +88,7 @@ public class ModuleRegister extends Thread {
      * @return
      */
     private long workDone() {
-      throw new UnsupportedOperationException("Method not implemented");
-      //return System.currentTimeMillis() - timeStarted;
+      return System.currentTimeMillis() - timeStarted;
     }
 
     /**
