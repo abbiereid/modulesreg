@@ -9,9 +9,13 @@ package ci583.receiver;
  * @author Jim Burton
  */
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
-public class PReceiver extends ModRegReceiver {
+public class PReceiver extends ModRegReceiver implements Comparator<ModuleRegister> {
+
+
 
     /**
      * Constructs a new Priority Scheduler. The constructor needs to call the constructor of the
@@ -24,6 +28,18 @@ public class PReceiver extends ModRegReceiver {
      */
     public PReceiver(long quantum) {
       super(quantum);
+
+    }
+
+    @Override
+    public int compare(ModuleRegister p1, ModuleRegister p2) {
+        if (p1.getPriority() == p2.getPriority()) {
+            return -1; //if a new process has same priority, should be first come first
+        } else if (p1.getPriority() < p2.getPriority()) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     @Override
@@ -51,4 +67,5 @@ public class PReceiver extends ModRegReceiver {
         //ArrayList<ModuleRegister>orderedResults = new ArrayList<>();
         //return orderedResults;
     }
+
 }
