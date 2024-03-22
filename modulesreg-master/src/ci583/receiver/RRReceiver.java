@@ -8,9 +8,12 @@ package ci583.receiver;
  */
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class RRReceiver extends ModRegReceiver {
+
+    private List<ModuleRegister> processes;
 
     /**
      * Create a new RRReceiver with the given quantum. The constructor needs to call the constructor
@@ -19,6 +22,7 @@ public class RRReceiver extends ModRegReceiver {
      */
     public RRReceiver(long quantum) {
       super(quantum);
+      this.processes = new LinkedList<>();
     }
 
     /**
@@ -26,7 +30,7 @@ public class RRReceiver extends ModRegReceiver {
      */
     @Override
     public void enqueue(ModuleRegister m) {
-      throw new UnsupportedOperationException("Method not implemented");
+        processes.add(m);
     }
 
     /**
@@ -45,8 +49,9 @@ public class RRReceiver extends ModRegReceiver {
      */
     @Override
     public List<ModuleRegister> startRegistration() {
-        throw new UnsupportedOperationException("Method not implemented");
-        //ArrayList<ModuleRegister> results = new ArrayList<>();
-        //return results;
+        LinkedList<ModuleRegister> results = new LinkedList<>();
+
+
+        return results;
     }
 }
