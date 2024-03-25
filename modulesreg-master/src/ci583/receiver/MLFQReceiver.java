@@ -34,7 +34,7 @@ public class MLFQReceiver extends ModRegReceiver {
      */
     @Override
     public void enqueue(ModuleRegister m) {
-        throw new UnsupportedOperationException("Method not implemented");
+        YOUNG.add(m);
     }
 
     /**
