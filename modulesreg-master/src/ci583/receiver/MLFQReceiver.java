@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MLFQReceiver extends ModRegReceiver {
+
+    private List<ModuleRegister> YOUNG;
+    private List<ModuleRegister> OLD;
+
     /**
      * Constructs a multi-level feedback queue receiver. The constructor needs to call the constructor of the
      * superclass then initialise the two lists for young and old processes.
@@ -53,8 +57,7 @@ public class MLFQReceiver extends ModRegReceiver {
      */
     @Override
     public List<ModuleRegister> startRegistration() {
-      throw new UnsupportedOperationException("Method not implemented");
-      //ArrayList<ModuleRegister> results = new ArrayList<>();
-      //return results;
+      ArrayList<ModuleRegister> results = new ArrayList<>();
+      return results;
     }
 }
