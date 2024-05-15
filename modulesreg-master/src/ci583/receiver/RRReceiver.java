@@ -49,33 +49,33 @@ public class RRReceiver extends ModRegReceiver {
      */
     @Override
     public List<ModuleRegister> startRegistration() {
-        LinkedList<ModuleRegister> results = new LinkedList<>(); // list of completed processes
+        LinkedList<ModuleRegister> results = new LinkedList<>();
 
-        while(!processes.isEmpty()) { // while the queue is not empty
-            ModuleRegister process = processes.remove(0); // take the next process from the queue
-            ModuleRegister.State state = process.getState(); // get the state of the process
+        while(!processes.isEmpty()) {
+            ModuleRegister process = processes.remove(0);
+            ModuleRegister.State state = process.getState();
 
-            if (state == ModuleRegister.State.NEW) { // if the state is NEW
-                process.start(); // start the process
+            if (state == ModuleRegister.State.NEW) {
+                process.start();
                 try {
-                    Thread.sleep(QUANTUM); // sleep for QUANTUM milliseconds
+                    Thread.sleep(QUANTUM);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                processes.add(process); // put the process at the back of the queue
+                processes.add(process);
 
-            } else if (state == ModuleRegister.State.TERMINATED) { // if the state is TERMINATED
-                results.add(process); // add it to the results list
-            } else { // if the state is anything else
-                process.interrupt(); // interrupt the process to wake it up
+            } else if (state == ModuleRegister.State.TERMINATED) {
+                results.add(process);
+            } else {
+                process.interrupt();
                 try {
-                    Thread.sleep(QUANTUM); // sleep for QUANTUM milliseconds
+                    Thread.sleep(QUANTUM);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                processes.add(process); // put the process at the back of the queue
+                processes.add(process);
             }
         }
-        return results; // return the list of completed processes
+        return results;
     }
 }

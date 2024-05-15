@@ -29,9 +29,9 @@ public class PReceiver extends ModRegReceiver implements Comparator<ModuleRegist
     }
 
     @Override
-    public int compare(ModuleRegister p1, ModuleRegister p2) { //could be switch case instead
+    public int compare(ModuleRegister p1, ModuleRegister p2) {
         if (p1.getPriority() == p2.getPriority()) {
-            return -1; //if a new process has same priority, should be first come first
+            return -1;
         } else if (p1.getPriority() < p2.getPriority()) {
             return -1;
         } else {
@@ -60,27 +60,27 @@ public class PReceiver extends ModRegReceiver implements Comparator<ModuleRegist
      */
     @Override
     public List<ModuleRegister> startRegistration() {
-        List<ModuleRegister> results = new ArrayList<>(); // list of completed processes
-        while (!queue.isEmpty()) { // while the queue is not empty
-            ModuleRegister process = queue.poll(); // take the next process from the queue
-            ModuleRegister.State state = process.getState(); // get the state of the process
-            if (state == ModuleRegister.State.NEW) {   // if the state is NEW
-                process.start(); // start the process
-                try { // sleep for QUANTUM milliseconds
+        List<ModuleRegister> results = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            ModuleRegister process = queue.poll();
+            ModuleRegister.State state = process.getState();
+            if (state == ModuleRegister.State.NEW) {
+                process.start();
+                try {
                     Thread.sleep(QUANTUM);
                 } catch (InterruptedException ignored) { }
-                queue.add(process); // put the process at the back of the queue
-            } else if (state == ModuleRegister.State.TERMINATED) { // if the state is TERMINATED
-                results.add(process); // add it to the finished results list
-            } else { // if the state is anything else
-                process.interrupt(); // interrupt the process to wake it up
-                try {   // sleep for QUANTUM milliseconds
+                queue.add(process);
+            } else if (state == ModuleRegister.State.TERMINATED) {
+                results.add(process);
+            } else {
+                process.interrupt();
+                try {
                     Thread.sleep(QUANTUM);
                 } catch (InterruptedException ignored) { }
-                queue.add(process); // put the process at the back of the queue
+                queue.add(process);
             }
         }
-        return results; // return the list of completed processes
+        return results;
     }
 
 }
