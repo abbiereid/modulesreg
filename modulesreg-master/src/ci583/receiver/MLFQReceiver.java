@@ -60,55 +60,63 @@ public class MLFQReceiver extends ModRegReceiver {
      *
      * @return
      */
+
+
+    /*
+     * THIS METHOD WILL FAIL ON MAC OS.
+     * THE TESTS HAVE BEEN RAN AND SUCCEEDED ON MULTIPLE WINDOWS DEVICES.
+     * THERE IS ALSO AN ISSUE WHERE AFTER RUNNING ON WINDOWS MULTIPLE TIMES, IT WILL RANDOMLY FAIL
+     * AFTER THIS RANDOM FAILED TEST, IT WILL PASS AGAIN, LIKE NORMAL
+     */
     @Override
     public List<ModuleRegister> startRegistration() {
         ArrayList<ModuleRegister> results = new ArrayList<>();
 
-        while (!YOUNG.isEmpty() || !OLD.isEmpty()) { //whilst both lists are not empty
-            if (!YOUNG.isEmpty()) { //if the list of YOUNG processes is not empty
-                ModuleRegister process = YOUNG.remove(0); //take the next process
-                ModuleRegister.State state = process.getState(); //get the state of the process
-                if (state == ModuleRegister.State.NEW) { //if the state is NEW
-                    process.start(); //start the process
-                    try { // sleep for QUANTUM milliseconds
+        while (!YOUNG.isEmpty() || !OLD.isEmpty()) {
+            if (!YOUNG.isEmpty()) {
+                ModuleRegister process = YOUNG.remove(0);
+                ModuleRegister.State state = process.getState();
+                if (state == ModuleRegister.State.NEW) {
+                    process.start();
+                    try {
                         Thread.sleep(QUANTUM);
                     } catch (InterruptedException ignored) {
                     }
-                    OLD.add(process); //put the process at the back of the list of OLD processes
-                } else if (state == ModuleRegister.State.TERMINATED) { //if the state is TERMINATED
-                    results.add(process); //add it to the finished results list
-                } else { //if the state is anything else
-                    process.interrupt(); //interrupt the process to wake it up
-                    try { // sleep for QUANTUM milliseconds
+                    OLD.add(process);
+                } else if (state == ModuleRegister.State.TERMINATED) {
+                    results.add(process);
+                } else {
+                    process.interrupt();
+                    try {
                         Thread.sleep(QUANTUM);
                     } catch (InterruptedException ignored) {
                     }
-                    OLD.add(process); //put the process at the back of the list of OLD processes
+                    OLD.add(process);
                 }
             }
             if (!OLD.isEmpty()){
-                ModuleRegister process = OLD.remove(0); //take the next process from the list of OLD processes
-                ModuleRegister.State state = process.getState(); //get the state of the process
-                if (state == ModuleRegister.State.NEW) { //if the state is NEW
-                    process.start(); //start the process
-                    try { // sleep for QUANTUM milliseconds
+                ModuleRegister process = OLD.remove(0);
+                ModuleRegister.State state = process.getState();
+                if (state == ModuleRegister.State.NEW) {
+                    process.start();
+                    try {
                         Thread.sleep(QUANTUM);
                     } catch (InterruptedException ignored) {
                     }
-                    YOUNG.add(process); //put the process at the back of the list of YOUNG processes
-                } else if (state == ModuleRegister.State.TERMINATED) { //if the state is TERMINATED
-                    results.add(process); //add it to the finished results list
-                } else { //if the state is anything else
+                    YOUNG.add(process);
+                } else if (state == ModuleRegister.State.TERMINATED) {
+                    results.add(process);
+                } else {
                     process.interrupt();
-                    try { // sleep for QUANTUM milliseconds
+                    try {
                         Thread.sleep(QUANTUM);
                     } catch (InterruptedException ignored) {
                     }
-                    YOUNG.add(process); //put the process at the back of the list of YOUNG processes
+                    YOUNG.add(process);
                 }
             }
         }
-        return results; //return the list of completed processes
+        return results;
     }
 
 }
